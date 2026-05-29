@@ -256,17 +256,18 @@
   }
 
   function onCanvasMouseDown(e) {
-    e.preventDefault();
-    if(!activeMode) return;
+    if (!activeMode) return;
+    if (activeMode === 'brush') e.preventDefault();
     const { x, y } = getCanvasCoords(e);
-    if(activeMode === 'brush') {
-      brushDrawing = true;
-      brushPoints = [{ x, y }];
+    if (activeMode === 'brush') {
+        brushDrawing = true;
+        brushPoints = [{ x, y }];
     }
   }
 
   function onCanvasMouseMove(e) {
-    if(!activeMode) return;
+    if (!activeMode) return;
+    if (activeMode === 'brush') e.preventDefault();
     const { x, y } = getCanvasCoords(e);
 
     if(activeMode === 'line' && lineFirstPoint !== null) {
@@ -287,9 +288,12 @@
   }
 
   function onCanvasMouseUp(e) {
-    if(activeMode === 'brush' && brushDrawing) {
-      finalizeBrushStroke();
-      drawAll();
+    if (activeMode === 'brush') {
+        e.preventDefault();
+        if (brushDrawing) {
+        finalizeBrushStroke();
+        drawAll();
+        }
     }
   }
 
@@ -404,37 +408,40 @@
     const joinBtn = getElem('joinRoomBtn');
     if (createBtn) createBtn.addEventListener('click', createRoomAndRedirect);
     if (joinBtn) joinBtn.addEventListener('click', joinRoomById);
-    
+
     const copyBtn = getElem('copyLinkBtn');
     if (copyBtn) copyBtn.addEventListener('click', copyRoomLink);
-    
+
     const allyBtn = getElem('addAllyBtn');
     const enemyBtn = getElem('addEnemyBtn');
     const lineBtn = getElem('drawLineBtn');
     const deleteBtn = getElem('deleteModeBtn');
     const brushModeBtn = getElem('brushBtn');
-    
+
     if (allyBtn) allyBtn.addEventListener('click', () => setMode('ally'));
     if (enemyBtn) enemyBtn.addEventListener('click', () => setMode('enemy'));
     if (lineBtn) lineBtn.addEventListener('click', () => setMode('line'));
     if (deleteBtn) deleteBtn.addEventListener('click', () => setMode('delete'));
     if (brushModeBtn) brushModeBtn.addEventListener('click', () => setMode('brush'));
-    
+
     const colorPicker = getElem('brushColor');
     const lineSelect = getElem('lineTypeSelect');
-    
+
     if (colorPicker) colorPicker.addEventListener('change', (e) => { brushColor = e.target.value; });
     if (lineSelect) lineSelect.addEventListener('change', (e) => { lineType = e.target.value; });
-    
+
     if (canvas) {
-      canvas.addEventListener('mousedown', onCanvasMouseDown);
-      canvas.addEventListener('mousemove', onCanvasMouseMove);
-      canvas.addEventListener('mouseup', onCanvasMouseUp);
-      canvas.addEventListener('click', onCanvasClick);
-      canvas.addEventListener('touchstart', (e) => { e.preventDefault(); onCanvasMouseDown(e); });
-      canvas.addEventListener('touchmove', (e) => { e.preventDefault(); onCanvasMouseMove(e); });
-      canvas.addEventListener('touchend', (e) => { e.preventDefault(); onCanvasMouseUp(e); });
-      canvas.addEventListener('touchcancel', (e) => { e.preventDefault(); onCanvasMouseUp(e); });
+        // Мышь
+        canvas.addEventListener('mousedown', onCanvasMouseDown);
+        canvas.addEventListener('mousemove', onCanvasMouseMove);
+        canvas.addEventListener('mouseup', onCanvasMouseUp);
+        canvas.addEventListener('click', onCanvasClick);
+        
+        // Тач (мобильные) – просто вызываем те же функции, без лишних обёрток
+        canvas.addEventListener('touchstart', onCanvasMouseDown);
+        canvas.addEventListener('touchmove', onCanvasMouseMove);
+        canvas.addEventListener('touchend', onCanvasMouseUp);
+        // click для мобильных тоже будет работать, так как мы больше не блокируем его везде
     }
   }
 
