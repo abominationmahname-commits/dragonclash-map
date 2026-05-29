@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+  <title>Координатор карты</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+  <div id="landing" class="landing">
+    <h1>🎮 Координатор боевой карты</h1>
+    <div class="join-panel">
+      <button id="createRoomBtn">✨ Создать новую комнату</button>
+      <div class="or">или</div>
+      <input type="text" id="roomIdInput" placeholder="ID комнаты">
+      <button id="joinRoomBtn">🔗 Присоединиться</button>
+    </div>
+  </div>
+
+  <div id="app" style="display: none;">
+    <div class="toolbar">
+      <div class="room-info">
+        Комната: <span id="roomIdDisplay"></span>
+        <button id="copyLinkBtn">📋 Копировать ссылку</button>
+      </div>
+      <div class="tools">
+        <button id="addAllyBtn" class="tool-btn" data-mode="ally">➕ База союзника</button>
+        <button id="addEnemyBtn" class="tool-btn" data-mode="enemy">⚠️ База врага</button>
+        <select id="lineTypeSelect">
+          <option value="attack">⚔️ Атака</option>
+          <option value="retreat">🔙 Отступление</option>
+          <option value="defense">🛡️ Защита</option>
+          <option value="merge">🔄 Слияние</option>
+        </select>
+        <button id="drawLineBtn" class="tool-btn" data-mode="line">📏 Рисовать линию</button>
+        <button id="deleteModeBtn" class="tool-btn" data-mode="delete">❌ Удалить (режим)</button>
+      </div>
+    </div>
+    <div class="canvas-container">
+      <canvas id="mapCanvas"></canvas>
+    </div>
+    <div class="legend">
+      <span>🟢 Союзник</span> <span>🔴 Враг</span>
+      <span>🔴 Атака</span> <span>🔵 Отступление</span> <span>🟢 Защита</span> <span>🟠 Слияние</span>
+      <span>💡 Режим удаления: клик по метке или линии</span>
+    </div>
+  </div>
+
+  <script src="/client.js"></script>
+</body>
+</html>
