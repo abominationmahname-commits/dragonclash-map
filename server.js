@@ -62,8 +62,26 @@ io.on('connection', (socket) => {
     }
   });
 
+  socket.on('add-brush-stroke', ({ roomId, points, color, opacity, thickness }) => {
+    const room = rooms.get(roomId);
+    if (!room) return;
+    const id = nanoid();
+    const brushLine = {
+        id,
+        lineType: 'brush',
+        points: points,
+        color: color,
+        opacity: opacity,
+        thickness: thickness
+    };
+    room.lines.set(id, brushLine);
+    io.to(roomId).emit('line-added', brushLine);
+  });
+
   socket.on('disconnect', () => {});
 });
+
+
 
 // Страница комнаты
 app.get('/room/:id', (req, res) => {

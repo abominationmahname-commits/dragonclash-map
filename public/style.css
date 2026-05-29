@@ -158,3 +158,24 @@ canvas {
     text-align: center;
   }
 }
+
+#brushColor {
+  width: 48px;
+  height: 48px;
+  border-radius: 40px;
+  border: 2px solid #f4e285;
+  background: #3a5a40;
+  cursor: pointer;
+}
+#brushOpacity, #brushThickness {
+  vertical-align: middle;
+}
+
+#opacityValue {
+  background: #1e2a1a;
+  padding: 4px 8px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  min-width: 45px;
+  text-align: center;
+}

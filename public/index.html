@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
   <title>Координатор карты</title>
   <link rel="stylesheet" href="/style.css">
   <script src="/socket.io/socket.io.js"></script>
@@ -35,7 +34,9 @@
           <option value="merge">🔄 Слияние</option>
         </select>
         <button id="drawLineBtn" class="tool-btn" data-mode="line">📏 Рисовать линию</button>
-        <button id="deleteModeBtn" class="tool-btn" data-mode="delete">❌ Удалить (режим)</button>
+        <button id="brushBtn" class="tool-btn" data-mode="brush">🖌️ Кисть</button>
+        <input type="color" id="brushColor" value="#ffaa44">
+        <button id="deleteModeBtn" class="tool-btn" data-mode="delete">❌ Удалить</button>
       </div>
     </div>
     <div class="canvas-container">
@@ -44,7 +45,7 @@
     <div class="legend">
       <span>🟢 Союзник</span> <span>🔴 Враг</span>
       <span>🔴 Атака</span> <span>🔵 Отступление</span> <span>🟢 Защита</span> <span>🟠 Слияние</span>
-      <span>💡 Режим удаления: клик по метке или линии</span>
+      <span>🎨 Кисть (полупрозрачная)</span>
     </div>
   </div>
 
